@@ -1,0 +1,152 @@
+{
+    "validation_formats": [
+      {
+        "format_type": "email",
+        "description": "Validates email addresses",
+        "regex_pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        "min_length": 6,
+        "max_length": 254
+      },
+      {
+        "format_type": "phone",
+        "description": "Validates phone numbers",
+        "regex_pattern": "^\\+?(\\d{1,3})?[- .]?\\(?(\\d{3})\\)?[- .]?\\d{3}[- .]?\\d{4}$",
+        "min_length": 10,
+        "max_length": 20
+      },
+      {
+        "format_type": "date",
+        "description": "Validates dates (YYYY-MM-DD)",
+        "regex_pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "min_length": 10,
+        "max_length": 10
+      },
+      {
+        "format_type": "time",
+        "description": "Validates time (HH:MM:SS)",
+        "regex_pattern": "^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$",
+        "min_length": 8,
+        "max_length": 8
+      },
+      {
+        "format_type": "datetime",
+        "description": "Validates datetime (YYYY-MM-DD HH:MM:SS)",
+        "regex_pattern": "^\\d{4}-\\d{2}-\\d{2} (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$",
+        "min_length": 19,
+        "max_length": 19
+      },
+      {
+        "format_type": "url",
+        "description": "Validates URLs",
+        "regex_pattern": "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*\\/*)?$",
+        "min_length": 1,
+        "max_length": 2048
+      },
+      {
+        "format_type": "ipv4",
+        "description": "Validates IPv4 addresses",
+        "regex_pattern": "^\\d{1,3}(\\.\\d{1,3}){3}$",
+        "min_length": 7,
+        "max_length": 15
+      },
+      {
+        "format_type": "ipv6",
+        "description": "Validates IPv6 addresses",
+        "regex_pattern": "^([0-9a-fA-F]{0,4}:){7}[0-9a-fA-F]{0,4}$",
+        "min_length": 15,
+        "max_length": 39
+      },
+      {
+        "format_type": "credit_card",
+        "description": "Validates credit card numbers",
+        "regex_pattern": "^\\d{13,19}$",
+        "min_length": 13,
+        "max_length": 19
+      },
+      {
+        "format_type": "ssn",
+        "description": "Validates Social Security Numbers (USA)",
+        "regex_pattern": "^\\d{3}-\\d{2}-\\d{4}$",
+        "min_length": 11,
+        "max_length": 11
+      },
+      {
+        "format_type": "zip_code",
+        "description": "Validates ZIP codes (USA)",
+        "regex_pattern": "^\\d{5}(-\\d{4})?$",
+        "min_length": 5,
+        "max_length": 10
+      },
+      {
+        "format_type": "username",
+        "description": "Validates usernames",
+        "regex_pattern": "^[a-zA-Z0-9_]{3,20}$",
+        "min_length": 3,
+        "max_length": 20
+      },
+      {
+        "format_type": "password",
+        "description": "Validates passwords (common rules)",
+        "regex_pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+        "min_length": 8,
+        "max_length": 20
+      },
+      {
+        "format_type": "alphanumeric",
+        "description": "Validates alphanumeric strings",
+        "regex_pattern": "^[a-zA-Z0-9]+$",
+        "min_length": 1,
+        "max_length": null
+      },
+      {
+        "format_type": "hex_color",
+        "description": "Validates hexadecimal color codes",
+        "regex_pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+        "min_length": 4,
+        "max_length": 7
+      },
+      {
+        "format_type": "isbn",
+        "description": "Validates ISBN numbers",
+        "regex_pattern": "^(?:ISBN-)?(?:\\d{9}X|\\d{10})$",
+        "min_length": 9,
+        "max_length": 10
+      },
+      {
+        "format_type": "ean",
+        "description": "Validates EAN-13 barcodes",
+        "regex_pattern": "^\\d{13}$",
+        "min_length": 13,
+        "max_length": 13
+      },
+      {
+        "format_type": "currency",
+        "description": "Validates currency amounts",
+        "regex_pattern": "^\\d{1,3}(?:,\\d{3})*\\.\\d{2}$",
+        "min_length": 4,
+        "max_length": 20
+      },
+      {
+        "format_type": "percentage",
+        "description": "Validates percentage values",
+        "regex_pattern": "^([0-9]{1,2}|100)(\\.[0-9]{1,2})?$",
+        "min_length": 1,
+        "max_length": 5
+      },
+      {
+        "format_type": "slug",
+        "description": "Validates slugs (URL-friendly)",
+        "regex_pattern": "^[a-z0-9-]+$",
+        "min_length": 1,
+        "max_length": null
+      },
+      {
+        "format_type": "uuid",
+        "description": "Validates UUIDs",
+        "regex_pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+        "min_length": 36,
+        "max_length": 36
+      }
+    ]
+  }
+  
