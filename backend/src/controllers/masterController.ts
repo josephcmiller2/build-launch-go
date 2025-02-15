@@ -3,6 +3,8 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { config } from '../app';
+import fetch from 'node-fetch';
+
 
 const loadMasterDocumentFile = (fileUri: string): Promise<any> => {
     const filePath = fileUri.slice(7);
@@ -18,12 +20,29 @@ const loadMasterDocumentFile = (fileUri: string): Promise<any> => {
 };
 
 const loadMasterDocumentURI = async (uri: string): Promise<any> => {
-    const fetch = (await import('node-fetch')).default; // Dynamic import
+    //const fetch = (await import('node-fetch')).default; // Dynamic import
     const response = await fetch(uri);
     if (!response.ok) {
         throw new Error('Error fetching master document from URI');
     }
     return response.json();
+};
+
+const processMasterDocument = async (data: any) => {
+    let masterDocument = {};
+    masterDocument.version = data.version;
+    masterDocument.name = data.name;
+    masterDocument.description = data.description;
+    // loop through data_objects and add them to masterDocument
+    masterDocument.data_objects = [];
+    for (let dataObject of data.data_objects) {
+        masterDocument.data_objects.push({
+            id: dataObject.id,
+            name: dataObject.name,
+            description: dataObject.description
+        });
+    }
+    return masterDocument;
 };
 
 export const getMasterDocument = async (req: Request, res: Response) => {
@@ -38,6 +57,7 @@ export const getMasterDocument = async (req: Request, res: Response) => {
         } else {
             data = await loadMasterDocumentURI(config.masterDocumentUri);
         }
+        data = await processMasterDocument(data);
         res.json(data);
     } catch (error: unknown) {
         if (error instanceof Error) {
