@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "name": "Master Document",
+  "description": "Master document listing all available data object types",
+  "data_objects": [
+    {
+      "id": "user",
+      "name": "User",
+      "description": "User data object type for managing user accounts",
+      "uri": "users.json",
+      "operations": ["create", "read", "update", "delete", "list"]
+    }
+  ],
+  "metadata": {
+    "created_at": "2024-03-19T12:00:00Z",
+    "updated_at": "2024-03-19T12:00:00Z",
+    "created_by": "System",
+    "updated_by": "System"
+  }
+} 

@@ -25,7 +25,7 @@ ENV HOME=/root
 # Define working directory.
 WORKDIR /buildlaunchgo
 
-EXPOSE 1080
+EXPOSE 1080 1081
 
 # Start systemd
 ENTRYPOINT ["/usr/sbin/init"]

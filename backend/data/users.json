@@ -1,0 +1,128 @@
+{
+  "version": "1.0.0",
+  "id": "user",
+  "name": "User",
+  "description": "User data object type for managing user accounts",
+  "stylesheet": "styles/user.css",
+  "groups": [
+    {
+      "name": "Account Information",
+      "fields": ["username", "email", "password"]
+    },
+    {
+      "name": "Personal Information",
+      "fields": ["first_name", "last_name"]
+    },
+    {
+      "name": "Status",
+      "fields": ["status"]
+    }
+  ],
+  "fields": [
+    {
+      "name": "username",
+      "type": "text",
+      "format": "username",
+      "required": true,
+      "label": "Username",
+      "validation": {
+        "min_length": 3,
+        "max_length": 20,
+        "regex": "^[a-zA-Z0-9_]{3,20}$"
+      }
+    },
+    {
+      "name": "email",
+      "type": "text",
+      "format": "email",
+      "required": true,
+      "label": "Email Address",
+      "validation": {
+        "min_length": 6,
+        "max_length": 254,
+        "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      }
+    },
+    {
+      "name": "password",
+      "type": "text",
+      "format": "password",
+      "required": true,
+      "label": "Password",
+      "validation": {
+        "min_length": 8,
+        "max_length": 20,
+        "regex": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+      },
+      "display": {
+        "input_type": "password",
+        "help_text": "Password must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters"
+      }
+    },
+    {
+      "name": "first_name",
+      "type": "text",
+      "required": true,
+      "label": "First Name",
+      "validation": {
+        "min_length": 2,
+        "max_length": 50,
+        "regex": "^[a-zA-Z]+$"
+      }
+    },
+    {
+      "name": "last_name",
+      "type": "text",
+      "required": true,
+      "label": "Last Name",
+      "validation": {
+        "min_length": 2,
+        "max_length": 50,
+        "regex": "^[a-zA-Z]+$"
+      }
+    },
+    {
+      "name": "status",
+      "type": "enum",
+      "required": true,
+      "label": "Account Status",
+      "enum_values": ["active", "inactive", "pending"],
+      "default": "pending"
+    }
+  ],
+  "operations": {
+    "create": {
+      "enabled": true,
+      "endpoint": "/api/users",
+      "method": "POST"
+    },
+    "read": {
+      "enabled": true,
+      "endpoint": "/api/users/{id}",
+      "method": "GET"
+    },
+    "update": {
+      "enabled": true,
+      "endpoint": "/api/users/{id}",
+      "method": "PUT"
+    },
+    "delete": {
+      "enabled": true,
+      "endpoint": "/api/users/{id}",
+      "method": "DELETE"
+    },
+    "list": {
+      "enabled": true,
+      "endpoint": "/api/users",
+      "method": "GET",
+      "pagination": true,
+      "default_page_size": 10
+    }
+  },
+  "metadata": {
+    "created_at": "2024-03-19T12:00:00Z",
+    "updated_at": "2024-03-19T12:00:00Z",
+    "created_by": "System",
+    "updated_by": "System"
+  }
+} 
