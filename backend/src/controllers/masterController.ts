@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { config } from '../app';
 import fetch from 'node-fetch';
-
+import { loadDataObject } from './dataObjectController';
 
 const loadMasterDocumentFile = (fileUri: string): Promise<any> => {
     const filePath = fileUri.slice(7);
@@ -36,10 +36,15 @@ const processMasterDocument = async (data: any) => {
     // loop through data_objects and add them to masterDocument
     masterDocument.data_objects = [];
     for (let dataObject of data.data_objects) {
+
+        // load the data object
+        let dataObjectDetail = await loadDataObject(dataObject.uri);
+
         masterDocument.data_objects.push({
             id: dataObject.id,
             name: dataObject.name,
-            description: dataObject.description
+            description: dataObject.description,
+            operations: dataObjectDetail.operations
         });
     }
     return masterDocument;

@@ -116,7 +116,7 @@
       "endpoint": "/api/users",
       "method": "GET",
       "pagination": true,
-      "default_page_size": 10
+      "default_page_size": 20
     }
   },
   "metadata": {
