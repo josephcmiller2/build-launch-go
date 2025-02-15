@@ -6,7 +6,7 @@ const HomePage: React.FC = () => {
     <Layout>
       <div className="text-center">
         <h1 className="text-3xl font-bold">
-          Welcome to Build Launch Go!
+          Welcome to Build Launch Go
         </h1>
       </div>
     </Layout>
