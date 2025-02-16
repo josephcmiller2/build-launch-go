@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/common/Layout';
 import App from '../../_app'; // Adjust the import path as necessary
+import { Widget } from '../../../components/common/Widgets'; // Import the Widget function
 
 const ListView: React.FC = () => {
   const router = useRouter();
@@ -91,67 +92,54 @@ const ListView: React.FC = () => {
         </h1>
         <p>This is a list view of {dataObjectTypeSlug} data objects.</p>
 
-        {/* Add Button */}
+        {/* Add Button using Widget */}
         <div className="flex justify-between mb-4">
           <div></div> {/* Empty div for left alignment */}
-          <button
-            onClick={() => router.push(`/admin/${dataObjectTypeSlug}/add`)}
-            className="bg-green-500 text-white px-4 py-2"
-          >
-            Add
-          </button>
+          <Widget type="button" props={{ label: "Add", onClick: () => router.push(`/admin/${dataObjectTypeSlug}/add`) }} />
         </div>
 
         {/* Search Filters */}
         <div className="mb-4">
           {searchFields.map((field: string) => {
             const fieldInfo = fields.find((f: any) => f.name === field);
-            if (fieldInfo && fieldInfo.type === 'enum' && fieldInfo.enum_values) {
+            console.log(fieldInfo);
+            if (field === "*TEXT*") {
               return (
-                <select
+                <Widget
                   key={field}
-                  value={searchQueries[field] || ''}
-                  onChange={(e) => handleInputChange(field, e.target.value)}
-                  className="border border-gray-300 px-4 py-2 mr-2"
-                >
-                  <option value="">Select {field}</option>
-                  {fieldInfo.enum_values.map((value: string) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              );
-            } else if (field === "*TEXT*") {
-              return (
-                <input
-                  key={field}
-                  type="text"
-                  placeholder="Search..."
-                  value={searchQueries["*TEXT*"] || ''}
-                  onChange={(e) => handleInputChange("*TEXT*", e.target.value)}
-                  className="border border-gray-300 px-4 py-2 mr-2"
+                  type="input"
+                  props={{
+                    placeholder: "Search...",
+                    value: searchQueries["*TEXT*"] || '',
+                    onChange: (e) => handleInputChange("*TEXT*", e.target.value),
+                  }}
                 />
               );
             } else {
+              // The type= value should be provided by the field type in the dataObject.fields array
               return (
-                <input
+                <Widget
                   key={field}
-                  type="text"
-                  placeholder={`Search ${field}...`}
-                  value={searchQueries[field] || ''}
-                  onChange={(e) => handleInputChange(field, e.target.value)}
-                  className="border border-gray-300 px-4 py-2 mr-2"
+                  type={fieldInfo.type}
+                  props={{
+                    placeholder: `Search ${field}...`,
+                    value: searchQueries[field] || '',
+                    onChange: (e) => handleInputChange(field, e.target.value),
+                    ...(fieldInfo.type === 'enum' && {
+                      options: fieldInfo.enum_values.map(value => ({ value, label: value }))
+                    })
+                  }}
                 />
               );
             }
           })}
-          <button
-            onClick={handleSearch}
-            className="bg-blue-500 text-white px-4 py-2"
-          >
-            Search
-          </button>
+          <Widget
+            type="button"
+            props={{
+              label: "Search",
+              onClick: handleSearch,
+            }}
+          />
         </div>
 
         <table className="min-w-full border-collapse border border-gray-200">
