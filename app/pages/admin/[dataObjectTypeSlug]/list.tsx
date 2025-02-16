@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/common/Layout';
 import App from '../../_app'; // Adjust the import path as necessary
-import { Widget } from '../../../components/common/Widgets'; // Import the Widget function
+import { Widget, ButtonWidget } from '../../../components/common/Widgets'; // Import the Widget function
 
 const ListView: React.FC = () => {
   const router = useRouter();
@@ -92,53 +92,70 @@ const ListView: React.FC = () => {
         </h1>
         <p>This is a list view of {dataObjectTypeSlug} data objects.</p>
 
-        {/* Add Button using Widget */}
+        {/* Add Button using ButtonWidget */}
         <div className="flex justify-between mb-4">
           <div></div> {/* Empty div for left alignment */}
-          <Widget type="button" props={{ label: "Add", onClick: () => router.push(`/admin/${dataObjectTypeSlug}/add`) }} />
+          <ButtonWidget 
+            name="add-button"
+            field={{
+              name: "add-button",
+              type: "button",
+              label: "Add",
+              required: false
+            }}
+            value={null}
+            onChange={() => router.push(`/admin/${dataObjectTypeSlug}/add`)}
+          />
         </div>
 
         {/* Search Filters */}
         <div className="mb-4">
           {searchFields.map((field: string) => {
             const fieldInfo = fields.find((f: any) => f.name === field);
-            console.log(fieldInfo);
             if (field === "*TEXT*") {
               return (
                 <Widget
                   key={field}
                   type="input"
-                  props={{
-                    placeholder: "Search...",
-                    value: searchQueries["*TEXT*"] || '',
-                    onChange: (e) => handleInputChange("*TEXT*", e.target.value),
+                  name="global-search"
+                  field={{
+                    name: "global-search",
+                    type: "text",
+                    label: "Global Search",
+                    required: false
                   }}
+                  value={searchQueries["*TEXT*"] || ''}
+                  onChange={(e) => handleInputChange("*TEXT*", e)}
                 />
               );
             } else {
-              // The type= value should be provided by the field type in the dataObject.fields array
               return (
                 <Widget
                   key={field}
                   type={fieldInfo.type}
-                  props={{
-                    placeholder: `Search ${field}...`,
-                    value: searchQueries[field] || '',
-                    onChange: (e) => handleInputChange(field, e.target.value),
-                    ...(fieldInfo.type === 'enum' && {
-                      options: fieldInfo.enum_values.map(value => ({ value, label: value }))
-                    })
+                  name={`search-${field}`}
+                  field={{
+                    ...fieldInfo,
+                    name: `search-${field}`,
+                    required: false, // Search fields are never required
+                    label: `Search ${fieldInfo.label || field}`
                   }}
+                  value={searchQueries[field] || ''}
+                  onChange={(e) => handleInputChange(field, e)}
                 />
               );
             }
           })}
-          <Widget
-            type="button"
-            props={{
+          <ButtonWidget
+            name="search-button"
+            field={{
+              name: "search-button",
+              type: "button",
               label: "Search",
-              onClick: handleSearch,
+              required: false
             }}
+            value={null}
+            onChange={handleSearch}
           />
         </div>
 
