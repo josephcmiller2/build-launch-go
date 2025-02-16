@@ -44,26 +44,5 @@ export const loadDataObject = async (uri: string): Promise<any> => {
 export const getDataObject = async (req: Request, res: Response) => {
     const { id } = req.params; // Assuming the data object ID is passed as a URL parameter
 
-    if (!config.dataObjectTypeBaseUri) {
-        throw new Error('dataObjectTypeBaseUri is not defined in the configuration.');
-    }
-
-    try {
-        let data;
-        const fileUri = `${config.dataObjectTypeBaseUri}/${id}.json`;
-
-        if (fileUri.startsWith('file:///')) {
-            data = await loadDataObjectFile(fileUri);
-        } else {
-            data = await loadDataObjectURI(fileUri);
-        }
-
-        res.json(data);
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            res.status(500).json({ message: error.message });
-        } else {
-            res.status(500).json({ message: 'An unknown error occurred' });
-        }
-    }
+    // TODO: Implement the logic to get the data object
 }; 
