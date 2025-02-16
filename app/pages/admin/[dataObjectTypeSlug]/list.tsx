@@ -79,11 +79,22 @@ const ListView: React.FC = () => {
 
   return (
     <Layout>
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">
+      <div className="text-left">
+        <h1 className="text-2xl font-bold text-center">
           List View for {dataObjectTypeSlug}
         </h1>
         <p>This is a list view of {dataObjectTypeSlug} data objects.</p>
+
+        {/* Add Button */}
+        <div className="flex justify-between mb-4">
+          <div></div> {/* Empty div for left alignment */}
+          <button
+            onClick={() => router.push(`/admin/${dataObjectTypeSlug}/add`)}
+            className="bg-green-500 text-white px-4 py-2"
+          >
+            Add
+          </button>
+        </div>
 
         {/* Search Filters */}
         <div className="mb-4">
