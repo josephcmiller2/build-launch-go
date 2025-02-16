@@ -53,6 +53,7 @@ const ListView: React.FC = () => {
                   {fields.find((f: any) => f.name === field)?.label || field}
                 </th>
               ))}
+              <th className="border border-gray-300 px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -65,11 +66,25 @@ const ListView: React.FC = () => {
                       {record[field]}
                     </td>
                   ))}
+                  <td className="border border-gray-300 px-4 py-2">
+                    <button 
+                      onClick={() => router.push(`/admin/${dataObjectTypeSlug}/edit/${record.id}`)} 
+                      className="text-blue-500 hover:underline"
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(record.id)} 
+                      className="text-red-500 hover:underline ml-2"
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={listFields.length} className="border border-gray-300 px-4 py-2 text-center">
+                <td colSpan={listFields.length + 1} className="border border-gray-300 px-4 py-2 text-center">
                   No records found.
                 </td>
               </tr>
@@ -79,6 +94,25 @@ const ListView: React.FC = () => {
       </div>
     </Layout>
   );
+};
+
+// Function to handle delete action
+const handleDelete = async (id: string) => {
+  if (confirm("Are you sure you want to delete this record?")) {
+    try {
+      const response = await fetch(`${App.config.backendUrl}/api/users/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        // Optionally, refresh the data or redirect after deletion
+        window.location.reload();
+      } else {
+        alert('Failed to delete the record.');
+      }
+    } catch (error) {
+      alert('An error occurred while deleting the record.');
+    }
+  }
 };
 
 export default ListView; 
