@@ -15,7 +15,7 @@ RUN \
   apt-get install -y nodejs npm
 
 RUN \
-  npm install -g tailwindcss
+  npm install -g tailwindcss nodemon watch tsx
 
 ENV TZ=America/Denver
 ENV DEBIAN_FRONTEND=noninteractive
