@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ title = 'Build Launch Go' }) => {
             </Link>
           </div>
 
-          {/* Navigation */}
+          {/* Main Navigation */}
           <nav className="flex space-x-4 items-center">
             <Link 
               href="/"
@@ -52,10 +52,14 @@ const Header: React.FC<HeaderProps> = ({ title = 'Build Launch Go' }) => {
             >
               Home
             </Link>
+          </nav>
+
+          {/* Data Objects Navigation */}
+          <nav className="flex space-x-4 items-center">
             {dataObjects.map((dataObject) => (
               <Link 
                 key={dataObject.id}
-                href={`/${dataObject.id}/list`}
+                href={`/admin/${dataObject.id}/list`}
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
                   router.pathname === `/${dataObject.id}/list` 
                     ? 'bg-gray-100 text-gray-900' 
