@@ -12,17 +12,17 @@ The application flow is designed to provide a seamless and intuitive experience 
    - Navigation is provided to manage each data object type.
 
 2. **List View**:
-   - Users navigate to `/DATA_OBJECT_TYPE_SLUG/list` to view a paginated table of records.
+   - Users navigate to `/admin/DATA_OBJECT_TYPE_SLUG/list` to view a paginated table of records.
    - The table includes filters above it for easy data filtering.
    - Each row has **Edit** and **Delete** buttons.
 
 3. **Edit View**:
-   - Selecting **Edit** navigates to `/DATA_OBJECT_TYPE_SLUG/edit/ID` (GET request), displaying a form pre-populated with the selected record's data.
+   - Selecting **Edit** navigates to `/admin/DATA_OBJECT_TYPE_SLUG/edit/ID` (GET request), displaying a form pre-populated with the selected record's data.
    - Users can make changes and save using the **Save/Update** button.
    - A **Delete** button is also available on this view, requiring user confirmation before proceeding.
 
 4. **Create View**:
-   - Selecting **Create/Add** navigates to `/DATA_OBJECT_TYPE_SLUG/add` (GET request), displaying a blank form.
+   - Selecting **Create/Add** navigates to `/admin/DATA_OBJECT_TYPE_SLUG/add` (GET request), displaying a blank form.
    - Users populate the form and submit using the **Add** button.
 
 5. **Delete Confirmation**:
@@ -55,10 +55,10 @@ The system flow follows a clear and logical structure:
 The URL structure is designed to be RESTful and intuitive:
 
 - `/` - Home Page
-- `/DATA_OBJECT_TYPE_SLUG/list` - Paginated list view
-- `/DATA_OBJECT_TYPE_SLUG/edit/ID` - GET: Edit form; POST: Save/Update
-- `/DATA_OBJECT_TYPE_SLUG/add` - GET: Create form; POST: Submit new record
-- `/DATA_OBJECT_TYPE_SLUG/delete/ID` - POST: Delete confirmation and execution
+- `/admin/DATA_OBJECT_TYPE_SLUG/list` - Paginated list view
+- `/admin/DATA_OBJECT_TYPE_SLUG/edit/ID` - GET: Edit form; POST: Save/Update
+- `/admin/DATA_OBJECT_TYPE_SLUG/add` - GET: Create form; POST: Submit new record
+- `/admin/DATA_OBJECT_TYPE_SLUG/delete/ID` - POST: Delete confirmation and execution
 
 
 ## User Experience Enhancements

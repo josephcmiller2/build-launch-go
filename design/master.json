@@ -1,0 +1,45 @@
+/**
+    The endpoint for the master document is /api/master
+    Here's the example output for the master document:
+*/
+{
+    "version": "1.0.0",
+    "name": "Master Document",
+    "description": "Master document listing all available data object types",
+    "data_objects": [
+      {
+        "id": "user",
+        "name": "User",
+        "description": "User data object type for managing user accounts",
+        "operations": {
+          "create": {
+            "enabled": true,
+            "endpoint": "/api/users",
+            "method": "POST"
+          },
+          "read": {
+            "enabled": true,
+            "endpoint": "/api/users/{id}",
+            "method": "GET"
+          },
+          "update": {
+            "enabled": true,
+            "endpoint": "/api/users/{id}",
+            "method": "PUT"
+          },
+          "delete": {
+            "enabled": true,
+            "endpoint": "/api/users/{id}",
+            "method": "DELETE"
+          },
+          "list": {
+            "enabled": true,
+            "endpoint": "/api/users",
+            "method": "GET",
+            "pagination": true,
+            "default_page_size": 20
+          }
+        }
+      }
+    ]
+  }
