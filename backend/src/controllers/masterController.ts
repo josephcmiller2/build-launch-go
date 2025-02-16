@@ -28,6 +28,14 @@ const loadMasterDocumentURI = async (uri: string): Promise<any> => {
     return response.json();
 };
 
+export const loadMasterDocument = async (uri: string): Promise<any> => {
+    if (uri.startsWith('file:///')) {
+        return await loadMasterDocumentFile(uri);
+    } else {
+        return await loadMasterDocumentURI(uri);
+    }
+};
+
 const processMasterDocument = async (data: any) => {
     let masterDocument = {};
     masterDocument.version = data.version;
@@ -56,12 +64,8 @@ export const getMasterDocument = async (req: Request, res: Response) => {
     }
 
     try {
-        let data;
-        if (config.masterDocumentUri.startsWith('file:///')) {
-            data = await loadMasterDocumentFile(config.masterDocumentUri);
-        } else {
-            data = await loadMasterDocumentURI(config.masterDocumentUri);
-        }
+        let data = await loadMasterDocument(config.masterDocumentUri);
+        
         data = await processMasterDocument(data);
         res.json(data);
     } catch (error: unknown) {
