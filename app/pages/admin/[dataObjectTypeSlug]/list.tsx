@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/common/Layout';
 import App from '../../_app'; // Adjust the import path as necessary
+import { Widget, ButtonWidget } from '../../../components/common/Widgets'; // Import the Widget function
 
 const ListView: React.FC = () => {
   const router = useRouter();
@@ -85,62 +86,77 @@ const ListView: React.FC = () => {
 
   return (
     <Layout>
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">
+      <div className="text-left">
+        <h1 className="text-2xl font-bold text-center">
           List View for {dataObjectTypeSlug}
         </h1>
         <p>This is a list view of {dataObjectTypeSlug} data objects.</p>
+
+        {/* Add Button using ButtonWidget */}
+        <div className="flex justify-between mb-4">
+          <div></div> {/* Empty div for left alignment */}
+          <ButtonWidget 
+            name="add-button"
+            field={{
+              name: "add-button",
+              type: "button",
+              label: "Add",
+              required: false
+            }}
+            value={null}
+            onChange={() => router.push(`/admin/${dataObjectTypeSlug}/add`)}
+          />
+        </div>
 
         {/* Search Filters */}
         <div className="mb-4">
           {searchFields.map((field: string) => {
             const fieldInfo = fields.find((f: any) => f.name === field);
-            if (fieldInfo && fieldInfo.type === 'enum' && fieldInfo.enum_values) {
+            if (field === "*TEXT*") {
               return (
-                <select
+                <Widget
                   key={field}
-                  value={searchQueries[field] || ''}
-                  onChange={(e) => handleInputChange(field, e.target.value)}
-                  className="border border-gray-300 px-4 py-2 mr-2"
-                >
-                  <option value="">Select {field}</option>
-                  {fieldInfo.enum_values.map((value: string) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              );
-            } else if (field === "*TEXT*") {
-              return (
-                <input
-                  key={field}
-                  type="text"
-                  placeholder="Search..."
+                  type="input"
+                  name="global-search"
+                  field={{
+                    name: "global-search",
+                    type: "text",
+                    label: "Global Search",
+                    required: false
+                  }}
                   value={searchQueries["*TEXT*"] || ''}
-                  onChange={(e) => handleInputChange("*TEXT*", e.target.value)}
-                  className="border border-gray-300 px-4 py-2 mr-2"
+                  onChange={(e) => handleInputChange("*TEXT*", e)}
                 />
               );
             } else {
               return (
-                <input
+                <Widget
                   key={field}
-                  type="text"
-                  placeholder={`Search ${field}...`}
+                  type={fieldInfo.type}
+                  name={`search-${field}`}
+                  field={{
+                    ...fieldInfo,
+                    name: `search-${field}`,
+                    required: false, // Search fields are never required
+                    label: `Search ${fieldInfo.label || field}`
+                  }}
                   value={searchQueries[field] || ''}
-                  onChange={(e) => handleInputChange(field, e.target.value)}
-                  className="border border-gray-300 px-4 py-2 mr-2"
+                  onChange={(e) => handleInputChange(field, e)}
                 />
               );
             }
           })}
-          <button
-            onClick={handleSearch}
-            className="bg-blue-500 text-white px-4 py-2"
-          >
-            Search
-          </button>
+          <ButtonWidget
+            name="search-button"
+            field={{
+              name: "search-button",
+              type: "button",
+              label: "Search",
+              required: false
+            }}
+            value={null}
+            onChange={handleSearch}
+          />
         </div>
 
         <table className="min-w-full border-collapse border border-gray-200">

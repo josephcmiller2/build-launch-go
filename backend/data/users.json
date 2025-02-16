@@ -24,22 +24,39 @@
       "type": "text",
       "required": true,
       "label": "User ID",
+      "readonly": true,
+      "auto_generate": true,
+      "generator": "uuid",
       "validation": {
         "min_length": 1,
         "max_length": 50,
         "regex": "^[a-zA-Z0-9_-]+$"
+      },
+      "display": {
+        "visible": false,
+        "help_text": "Automatically generated unique identifier"
       }
     },
     {
-      "name": "username",
+      "name": "first_name",
       "type": "text",
-      "format": "username",
       "required": true,
-      "label": "Username",
+      "label": "First Name",
       "validation": {
-        "min_length": 3,
-        "max_length": 20,
-        "regex": "^[a-zA-Z0-9_]{3,20}$"
+        "min_length": 2,
+        "max_length": 50,
+        "regex": "^[a-zA-Z]+$"
+      }
+    },
+    {
+      "name": "last_name",
+      "type": "text",
+      "required": true,
+      "label": "Last Name",
+      "validation": {
+        "min_length": 2,
+        "max_length": 50,
+        "regex": "^[a-zA-Z]+$"
       }
     },
     {
@@ -68,28 +85,6 @@
       "display": {
         "input_type": "password",
         "help_text": "Password must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters"
-      }
-    },
-    {
-      "name": "first_name",
-      "type": "text",
-      "required": true,
-      "label": "First Name",
-      "validation": {
-        "min_length": 2,
-        "max_length": 50,
-        "regex": "^[a-zA-Z]+$"
-      }
-    },
-    {
-      "name": "last_name",
-      "type": "text",
-      "required": true,
-      "label": "Last Name",
-      "validation": {
-        "min_length": 2,
-        "max_length": 50,
-        "regex": "^[a-zA-Z]+$"
       }
     },
     {
@@ -131,7 +126,6 @@
     }
   },
   "listFields": [
-    "username",
     "email",
     "first_name",
     "last_name",
