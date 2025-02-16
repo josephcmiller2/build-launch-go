@@ -13,6 +13,12 @@ const ListView: React.FC = () => {
 
   useEffect(() => {
     if (dataObjectTypeSlug) {
+      // validate that dataObjectTypeSlug is a valid slug
+      if (!dataObjectTypeSlug.match(/^[a-z0-9_-]+$/)) {
+        setError(true);
+        return;
+      }
+
       const fetchDataObject = async () => {
         try {
           const response = await fetch(`${App.config.backendUrl}/api/object/${dataObjectTypeSlug}`);
