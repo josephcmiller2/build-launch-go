@@ -8,6 +8,8 @@ const ListView: React.FC = () => {
   const { dataObjectTypeSlug } = router.query;
   const [dataObject, setDataObject] = useState<any>(null);
   const [error, setError] = useState<boolean>(false);
+  const [searchQueries, setSearchQueries] = useState<{ [key: string]: string }>({});
+  const [filteredData, setFilteredData] = useState<any[]>([]);
 
   useEffect(() => {
     if (dataObjectTypeSlug) {
@@ -19,6 +21,7 @@ const ListView: React.FC = () => {
           }
           const data = await response.json();
           setDataObject(data);
+          setFilteredData(data.data); // Initialize filtered data
         } catch (error) {
           setError(true);
         }
@@ -28,6 +31,42 @@ const ListView: React.FC = () => {
     }
   }, [dataObjectTypeSlug]);
 
+  useEffect(() => {
+    if (dataObject) {
+      filterData();
+    }
+  }, [searchQueries, dataObject]);
+
+  const filterData = () => {
+    if (!dataObject || !dataObject.data) return;
+
+    const { searchFields } = dataObject;
+    const filtered = dataObject.data.filter((record: any) => {
+      // Check for general text search
+      if (searchFields.includes("*TEXT*")) {
+        return Object.values(record).some(value =>
+          String(value).toLowerCase().includes(searchQueries["*TEXT*"]?.toLowerCase() || '')
+        );
+      }
+
+      // Check specific fields
+      return searchFields.some(field => {
+        if (field === "*TEXT*") return false; // Skip the special field
+        return String(record[field] || '').toLowerCase().includes(searchQueries[field]?.toLowerCase() || '');
+      });
+    });
+
+    setFilteredData(filtered);
+  };
+
+  const handleSearch = () => {
+    filterData();
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setSearchQueries(prev => ({ ...prev, [field]: value }));
+  };
+
   if (error) {
     return <Layout><h1 className="text-2xl font-bold">404 - Data Object Not Found</h1></Layout>;
   }
@@ -36,7 +75,7 @@ const ListView: React.FC = () => {
     return <Layout><h1 className="text-2xl font-bold">Loading...</h1></Layout>;
   }
 
-  const { listFields, fields } = dataObject;
+  const { listFields, fields, searchFields } = dataObject;
 
   return (
     <Layout>
@@ -45,6 +84,59 @@ const ListView: React.FC = () => {
           List View for {dataObjectTypeSlug}
         </h1>
         <p>This is a list view of {dataObjectTypeSlug} data objects.</p>
+
+        {/* Search Filters */}
+        <div className="mb-4">
+          {searchFields.map((field: string) => {
+            const fieldInfo = fields.find((f: any) => f.name === field);
+            if (fieldInfo && fieldInfo.type === 'enum' && fieldInfo.enum_values) {
+              return (
+                <select
+                  key={field}
+                  value={searchQueries[field] || ''}
+                  onChange={(e) => handleInputChange(field, e.target.value)}
+                  className="border border-gray-300 px-4 py-2 mr-2"
+                >
+                  <option value="">Select {field}</option>
+                  {fieldInfo.enum_values.map((value: string) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              );
+            } else if (field === "*TEXT*") {
+              return (
+                <input
+                  key={field}
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQueries["*TEXT*"] || ''}
+                  onChange={(e) => handleInputChange("*TEXT*", e.target.value)}
+                  className="border border-gray-300 px-4 py-2 mr-2"
+                />
+              );
+            } else {
+              return (
+                <input
+                  key={field}
+                  type="text"
+                  placeholder={`Search ${field}...`}
+                  value={searchQueries[field] || ''}
+                  onChange={(e) => handleInputChange(field, e.target.value)}
+                  className="border border-gray-300 px-4 py-2 mr-2"
+                />
+              );
+            }
+          })}
+          <button
+            onClick={handleSearch}
+            className="bg-blue-500 text-white px-4 py-2"
+          >
+            Search
+          </button>
+        </div>
+
         <table className="min-w-full border-collapse border border-gray-200">
           <thead>
             <tr>
@@ -57,9 +149,8 @@ const ListView: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Check if dataObject.data is an array before mapping */}
-            {Array.isArray(dataObject.data) && dataObject.data.length > 0 ? (
-              dataObject.data.map((record: any, index: number) => (
+            {Array.isArray(filteredData) && filteredData.length > 0 ? (
+              filteredData.map((record: any, index: number) => (
                 <tr key={index}>
                   {listFields.map((field: string) => (
                     <td key={field} className="border border-gray-300 px-4 py-2">

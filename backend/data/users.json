@@ -137,6 +137,10 @@
     "last_name",
     "status"
   ],
+  "searchFields": [
+    "*TEXT*",
+    "status"
+  ],
   "metadata": {
     "created_at": "2024-03-19T12:00:00Z",
     "updated_at": "2024-03-19T12:00:00Z",
