@@ -53,7 +53,7 @@ class DataObject(Base):
         # iterate over all fields in the object
         fields = []
         for field in self.__table__.columns:
-            if True:
+            if False:
                 # iterate over all parameters in the field
                 print("")
                 print("Name = ", field.name)
