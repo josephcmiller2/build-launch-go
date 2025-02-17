@@ -3,3 +3,4 @@ config.mak
 **/node_modules
 **/vendor
 **/*.log
+**/__pycache__
