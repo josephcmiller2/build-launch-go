@@ -2,3 +2,4 @@ config.mak
 **/.next
 **/node_modules
 **/vendor
+**/*.log

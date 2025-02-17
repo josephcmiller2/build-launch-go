@@ -1,4 +1,4 @@
-NAME=build-launch-go
+NAME=build-launch-go-python
 TAGNAME=ubuntu:$NAME
 HOSTNAME=$NAME
 
@@ -12,7 +12,7 @@ GUESTUSERHOME=/root
 
 #X11ARGS="-e DISPLAY -v ${HOME}/.Xauthority:${GUESTUSERHOME}/.Xauthority:Z -v /tmp/.X11-unix:/tmp/.X11-unix:rw --ipc=host"
 #NETARGS="--net=host"
-NETARGS="-p 1080:1080 -p 1081:1081"
+NETARGS="-p 1082:1082"
 #RUNARGS="-it --rm"
 RUNARGS="-it --detach"
 
@@ -21,5 +21,5 @@ EXTRAARGS="$EXTRAARGS --systemd=true --privileged --security-opt label=disable"
 
 SHAREDARGS="-v /sys/fs/cgroup:/sys/fs/cgroup:rw"
 
-SHAREDARGS="$SHAREDARGS -v ${CPATH}/app:/buildlaunchgo -v ${CPATH}/backend:/backend"
+SHAREDARGS="$SHAREDARGS -v ${CPATH}/src:/backend"
 
