@@ -15,8 +15,7 @@ RUN \
   apt-get install -y python3-pip aptitude
 
 RUN \
-  apt-get install -y python3-flask python3-sqlalchemy && \
-  pip3 install flask-cors
+  apt-get install -y python3-flask python3-sqlalchemy python3-flask-cors
 
 ENV TZ=America/Denver
 ENV DEBIAN_FRONTEND=noninteractive

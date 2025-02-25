@@ -1,10 +1,7 @@
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-import logging
-
-# Create a basic logger if utils.logger isn't available
-logger = logging.getLogger(__name__)
+from utils.logger import logger
 
 Base = declarative_base()
 
@@ -13,6 +10,9 @@ class DataObject(Base):
     Base class for all data objects in the system.
     Provides common fields and functionality.
     """
+    # Add debug output to verify logger is working
+    logger.info("Initializing DataObject class")
+
     __abstract__ = True  # Marks this as an abstract base class
 
     # static variable to store all registered classes
@@ -195,12 +195,12 @@ class DataObject(Base):
         if field_validation:
             field_desc['validation'] = field_validation
 
-        print(f"Field {field.name} checking display")
+        logger.debug(f"Field {field.name} checking display")
         if field.name == 'id':
-            print(field.type)
+            logger.debug(field.type)
         # if the field has a field_display attribute, add it to the field_desc
         if hasattr(field, 'field_display'):
-            print(f"Field {field.name} has a field_display attribute: {field.field_display}")
+            logger.debug(f"Field {field.name} has a field_display attribute: {field.field_display}")
             field_desc['display'] = field.field_display
 
         return field_desc
@@ -213,13 +213,6 @@ class DataObject(Base):
         # iterate over all fields in the object
         fields = []
         for field in self.__table__.columns:
-            if False:
-                # iterate over all parameters in the field
-                print("")
-                print("Name = ", field.name)
-                for param in field.type.__dict__:
-                        print(param, " = ", field.type.__dict__[param])
-                print("")
             # get the field type name   
             field_type = self.get_field_type_name(field.type)
 
@@ -289,8 +282,6 @@ class DataObject(Base):
         # check if the field_type is in the _field_type_map
         if field_type in self._field_type_map:
             return self._field_type_map[field_type]
-
-
 
         return field_type
 

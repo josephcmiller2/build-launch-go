@@ -2,17 +2,24 @@
 # src/main.py
 
 import os
+import logging
 from flask import Flask, jsonify
-from utils.data_object import get_data_object_description, get_master
+from utils.data_object import DataObjectManager
 from utils.logger import logger
 from werkzeug.exceptions import HTTPException
 from flask_cors import CORS
 
+# Debug output to verify environment and logger configuration
+print(f"Environment LOG_LEVEL: {os.environ.get('LOG_LEVEL')}")
+print(f"Logger effective level: {logger.getEffectiveLevel()}")
+print(f"Root logger level: {logging.getLogger().getEffectiveLevel()}")
+
 app = Flask(__name__)
 
 # Get CORS allowed origins from environment variable
-allowed_origins = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:1080').split(',')
-CORS(app, resources={r"/api/*": {"origins": allowed_origins}})
+allowed_origins = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')
+if allowed_origins:
+    CORS(app, resources={r"/api/*": {"origins": allowed_origins}})
 
 @app.route('/')
 def home():
@@ -39,7 +46,7 @@ def get_object_description(object_slug, trailing_slash):
             logger.warning(f"Invalid object slug received: {object_slug}")
             return jsonify({"error": "Invalid object slug"}), 400
             
-        data_object = get_data_object_description(object_slug)
+        data_object = DataObjectManager.get_object_description(object_slug)
         if data_object is None:
             logger.warning(f"Object type not found: {object_slug}")
             return jsonify({"error": "Object type not found"}), 404
@@ -66,7 +73,7 @@ def get_master_document(trailing_slash):
     """
     try:
         logger.info("Received request for master document")
-        master_doc = get_master()
+        master_doc = DataObjectManager.get_master_document()
         logger.info("Successfully generated master document")
         return jsonify(master_doc)
     except Exception as e:
