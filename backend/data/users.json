@@ -21,21 +21,15 @@
   "fields": [
     {
       "name": "id",
-      "type": "text",
+      "type": "integer",
       "required": true,
       "label": "User ID",
       "readonly": true,
       "auto_generate": true,
-      "generator": "uuid",
       "validation": {
-        "min_length": 1,
-        "max_length": 50,
-        "regex": "^[a-zA-Z0-9_-]+$"
+        "min": 1
       },
-      "display": {
-        "visible": false,
-        "help_text": "Automatically generated unique identifier"
-      }
+      "display": "hidden"
     },
     {
       "name": "first_name",

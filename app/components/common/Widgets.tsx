@@ -88,9 +88,9 @@ export const SelectWidget: React.FC<WidgetProps> = ({
     className="border border-gray-300 px-4 py-2 mr-2"
   >
     <option value="">Select {field.label}...</option>
-    {field.enum_values?.map(value => (
+    {field.enum_values && Object.entries(field.enum_values).map(([value, label]) => (
       <option key={value} value={value}>
-        {value}
+        {label}
       </option>
     ))}
   </select>

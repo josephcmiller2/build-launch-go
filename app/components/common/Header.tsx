@@ -10,7 +10,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ title = 'Build Launch Go' }) => {
   const router = useRouter();
   const [dataObjects, setDataObjects] = useState<any[]>([]);
-  const masterDocumentUri = App.config.backendUrl + '/api/master';
+  const masterDocumentUri = App.config.masterDocumentUri;
+  console.log('masterDocumentUri', masterDocumentUri);
 
   useEffect(() => {
     const fetchMasterDocument = async () => {
