@@ -50,7 +50,7 @@ def get_object_description(object_slug, trailing_slash):
     except HTTPException as he:
         # Handle HTTP exceptions (like 404, 405, etc.)
         logger.error(f"HTTP error in get_object_description: {str(he)}")
-        return jsonify({"error": str(he)}), he.code
+        return jsonify({"error": "An error occurred while processing your request"}), he.code
 
     except Exception as e:
         # Handle any other unexpected errors

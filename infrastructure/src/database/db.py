@@ -18,7 +18,7 @@ class DatabaseManager:
     
     # Build the connection URL.
     DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-    logger.info("Database URL constructed: %s", DATABASE_URL)
+    logger.info(f"Database URL constructed: postgresql://{DB_USER}:********@{DB_HOST}:{DB_PORT}/{DB_NAME}")
     
     # Static members for the engine, session factory, and Base.
     engine = create_engine(DATABASE_URL)
