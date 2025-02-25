@@ -3,11 +3,16 @@
 
 import os
 from flask import Flask, jsonify
-from utils.data_object import get_data_object_description
+from utils.data_object import get_data_object_description, get_master
 from utils.logger import logger
 from werkzeug.exceptions import HTTPException
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+# Get CORS allowed origins from environment variable
+allowed_origins = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:1080').split(',')
+CORS(app, resources={r"/api/*": {"origins": allowed_origins}})
 
 @app.route('/')
 def home():
@@ -50,6 +55,22 @@ def get_object_description(object_slug, trailing_slash):
     except Exception as e:
         # Handle any other unexpected errors
         logger.error(f"Unexpected error in get_object_description: {str(e)}", exc_info=True)
+        return jsonify({"error": "Internal server error"}), 500
+
+
+@app.route('/api/master/', defaults={'trailing_slash': True}, strict_slashes=False)
+@app.route('/api/master', defaults={'trailing_slash': False}, strict_slashes=False)
+def get_master_document(trailing_slash):
+    """
+    Get the master document listing all available data object types
+    """
+    try:
+        logger.info("Received request for master document")
+        master_doc = get_master()
+        logger.info("Successfully generated master document")
+        return jsonify(master_doc)
+    except Exception as e:
+        logger.error(f"Error generating master document: {str(e)}", exc_info=True)
         return jsonify({"error": "Internal server error"}), 500
 
 

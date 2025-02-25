@@ -29,10 +29,7 @@
       "validation": {
         "min": 1
       },
-      "display": {
-        "visible": false,
-        "help_text": "Automatically generated unique identifier"
-      }
+      "display": "hidden"
     },
     {
       "name": "first_name",
